@@ -38,22 +38,9 @@ int getStartInterval(double (*f)(double)) {
     return start;
 }
 
-double getRoot(double (*f)(double)) {
-    double root_derivative;
-    double root = getStartInterval(f);
-    double prev;
+double getRoot(double (*f)(double), int start) {
+    int count = 0;
 
-    do {
-        prev = root;
-        root_derivative = derivative(f, root);
-        if (mod(root_derivative) < 1e-10) break;
-        root = root - f(root)/root_derivative;
-    } while (mod(root - prev) >= epsilon);
-
-    return root;
-}
-
-double getRoot(double (*f)(double), double start) {
     double root = start;
     double prev;
     double d;
@@ -63,7 +50,16 @@ double getRoot(double (*f)(double), double start) {
         d = derivative(f, root);
         if (mod(d) < 1e-10) break;
         root = root - f(root)/d;
+
+        count++;
     } while (mod(root - prev) >= epsilon);
 
+    std::cout << "Iterations count: " << count << "\n";
+
+    return root;
+}
+
+double getRoot(double (*f)(double)) {
+    double root = getRoot(f, getStartInterval(f));
     return root;
 }

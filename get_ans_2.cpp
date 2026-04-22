@@ -34,10 +34,11 @@ int getStartInterval(double (*f)(double)) {
     return start;
 }
 
-double getRoot(double (*f)(double)) {
-    double x0 = getStartInterval(f);
-    double x1 = x0 + 0.1;
+double getRoot(double (*f)(double), int start) {
+    int count = 0;
 
+    double x0 = start;
+    double x1 = x0 + 0.1;
     double x2;
 
     do {
@@ -51,9 +52,18 @@ double getRoot(double (*f)(double)) {
         // set prev
         x0 = x1;
         x1 = x2;
+
+        count++;
     } while (fabs(x1 - x0) >= epsilon);
 
+    std::cout << "Iterations count: " << count << "\n";
+
     return x1;
+}
+
+double getRoot(double (*f)(double)) {
+    double root = getRoot(f, getStartInterval(f));
+    return root;
 }
 
 int main() {

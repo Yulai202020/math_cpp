@@ -1,1 +1,0 @@
-g++ -fPIC -shared get_ans.cpp -o libmylib.so

@@ -12,5 +12,5 @@ double derivative(double (*f)(double), double x);
 // get interval where is root
 int getStartInterval(double (*f)(double));
 
-double getRoot(double (*f)(double));
 double getRoot(double (*f)(double), double start);
+double getRoot(double (*f)(double));
