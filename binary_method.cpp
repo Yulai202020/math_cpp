@@ -2,7 +2,7 @@
 #include <vector>
 #include <cmath>
 
-// Chord method 
+// I call it binary method (simulary to binary search)
 
 constexpr double epsilon = 1e-6;
 
@@ -32,31 +32,31 @@ int getStartInterval(double (*f)(double)) {
     return start;
 }
 
-double getRoot(double (*f)(double), int start) {
+double getRoot(double (*f)(double), int start_p) {
     int count = 0;
 
-    double x0 = start;
-    double x1 = x0 + 0.1;
-    double x2;
+    double start = start_p;
+    double end = start_p+1;
+    double mid = (start+end)/2;
 
-    do {
-        double f0 = f(x0);
-        double f1 = f(x1);
+    while (mod(f(mid)) < epsilon || mod(end - start) > epsilon) {
+        if (mod(f(mid)) < epsilon) {
+            return mid;
+        } else if (sgn(f(mid)) + sgn(f(start)) == 0) {
+            end = mid;
+        } else {
+            start = mid;
+        }
 
-        if (fabs(f1 - f0) < 1e-10) break;
-
-        x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
-
-        // set prev
-        x0 = x1;
-        x1 = x2;
-
+        mid = (start+end)/2;
         count++;
-    } while (fabs(x1 - x0) >= epsilon);
+    }
+
+    mid = (start + end) / 2;
 
     std::cout << "Iterations count: " << count << "\n";
 
-    return x1;
+    return mid; // return updated mid
 }
 
 double getRoot(double (*f)(double)) {

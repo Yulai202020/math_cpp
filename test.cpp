@@ -7,6 +7,10 @@ class RootTest : public ::testing::TestWithParam<double(*)(double)> {};
 
 double f1(double x) { return x*x*x*x - 16*x - 64; }
 double f2(double x) { return x*x*x*x - 4*x - 16; }
+double f3(double x) { return sqrt(fabs(cos(x))) - x; }
+double f4(double x) { return sqrt(fabs(cos(x))) - x; }
+double f5(double x) { return sqrt(fabs(cos(x))) - x; }
+double f6(double x) { return sqrt(fabs(cos(x))) - x; }
 
 void test(double (*f)(double)) {
     double root = getRoot(f);
@@ -25,9 +29,8 @@ TEST_P(RootTest, FindsRoot) {
     test(f);
 }
 
-// List of functions to test
 INSTANTIATE_TEST_SUITE_P(
     FunctionTests,
     RootTest,
-    ::testing::Values(f1, f2)
+    ::testing::Values(f1, f2, f3)
 );
