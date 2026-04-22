@@ -2,6 +2,8 @@
 #include <vector>
 #include <cmath>
 
+// Chord method 
+
 constexpr double epsilon = 1e-6;
 
 // tools
@@ -13,25 +15,21 @@ double mod(double x) {
     return (x >= 0 ? x : -x);
 }
 
-double derivative(double (*f)(double), double x) {
-    return (f(x + epsilon) - f(x)) / epsilon;
+double g(double x) {
+    return sqrt(fabs(cos(x))) - x;
 }
 
-// get all intervals
-// std::vector<int> getAllStartingInterval(double (*f)(double)) {
-// }
-    
 // get interval where is root
 int getStartInterval(double (*f)(double)) {
     int start = 0;
 
-    int y = f(start+1);
-    int prev_y = f(start);
+    double y = f(start + 1);
+    double prev_y = f(start);
 
     while (sgn(prev_y) + sgn(y) != 0) {
         start++;
 
-        y = f(start+1);
+        y = f(start + 1);
         prev_y = f(start);
     }
 
@@ -41,25 +39,39 @@ int getStartInterval(double (*f)(double)) {
 double getRoot(double (*f)(double), int start) {
     int count = 0;
 
-    double root = start;
-    double prev;
-    double d;
+    double x0 = start;
+    double x1 = x0 + 0.1;
+    double x2;
 
     do {
-        prev = root;
-        d = derivative(f, root);
-        if (mod(d) < 1e-10) break;
-        root = root - f(root)/d;
+        double f0 = f(x0);
+        double f1 = f(x1);
+
+        if (fabs(f1 - f0) < 1e-10) break;
+
+        x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
+
+        // set prev
+        x0 = x1;
+        x1 = x2;
 
         count++;
-    } while (mod(root - prev) >= epsilon);
+    } while (fabs(x1 - x0) >= epsilon);
 
     std::cout << "Iterations count: " << count << "\n";
 
-    return root;
+    return x1;
 }
 
 double getRoot(double (*f)(double)) {
     double root = getRoot(f, getStartInterval(f));
     return root;
+}
+
+int main() {
+    double root = getRoot(g);
+
+    std::cout << root << ": " << g(root) << "\n";
+
+    return 0;
 }

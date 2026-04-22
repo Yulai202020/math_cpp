@@ -1,7 +1,12 @@
 all: lib test
 
-lib:
-	g++ -fPIC -shared get_ans.cpp -o libmylib.so
+lib: lib_newton # defualt
+
+lib_chords:
+	g++ -fPIC -shared chord_method.cpp -o libmylib.so
+
+lib_newton:
+	g++ -fPIC -shared newton_method.cpp -o libmylib.so
 
 test: test.cpp lib
 	g++ test.cpp -o test.out \
