@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
+
 #include "lib.hpp"
 
 class RootTest : public ::testing::TestWithParam<double(*)(double)> {};
@@ -8,9 +10,6 @@ class RootTest : public ::testing::TestWithParam<double(*)(double)> {};
 double f1(double x) { return x*x*x*x - 16*x - 64; }
 double f2(double x) { return x*x*x*x - 4*x - 16; }
 double f3(double x) { return sqrt(fabs(cos(x))) - x; }
-double f4(double x) { return sqrt(fabs(cos(x))) - x; }
-double f5(double x) { return sqrt(fabs(cos(x))) - x; }
-double f6(double x) { return sqrt(fabs(cos(x))) - x; }
 
 void test(double (*f)(double)) {
     double root = getRoot(f);
