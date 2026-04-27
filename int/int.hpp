@@ -1,6 +1,6 @@
 #include <iostream>
 
-constexpr int slice_count = 1000;
+constexpr int slice_count = 10000;
 
 double integral_method_trapezoid(double start, double (*f)(double), double dist);
 double integral_method_avg(double start, double (*f)(double), double dist);

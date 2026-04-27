@@ -16,7 +16,7 @@ double integral_method_end(double start, double (*f)(double), double dist) {
 
 // sub linear
 double integral_method_trapezoid(double start, double (*f)(double), double dist) {
-    return (f(start) + f(start+dist))/2 * dist;
+    return (f(start) + f(start + dist)) / 2.0 * dist;
 }
 
 // funcs
@@ -25,7 +25,7 @@ double integral(double (*f)(double), double start, double end, double (*integral
     double root = 0;
     double x;
 
-    for (int i = 1; i < slice_count; i ++) {
+    for (int i = 0; i < slice_count; i ++) {
         x = start + i*eps;
         root += integral_method(x, f, eps);
     }
